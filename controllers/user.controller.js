@@ -34,7 +34,7 @@ const loginUser = async (req, res) => {
     else {
         const token = jwt.sign({ _id: user._id, email: user.email }, "secret")
         
-        res.setHeader('Set-Cookie', `authToken=${token}`);
+        res.setHeader('Set-Cookie', `authToken=${token};path=/`);
         res.writeHead(301, { "Location": "http://localhost:3000/url" })
         res.end()
     }

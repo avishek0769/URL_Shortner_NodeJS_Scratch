@@ -5,35 +5,45 @@ import ejs from "ejs"
 
 
 const createUser = async (req, res) => {
-    console.log("Body --> ", req.body)
+    console.log("Sign up --> ", req.body)
     const { fullname, email, password } = req.body
     const user = await User.create({
         fullname, email, password
     })
-    res.writeHead(200)
-    res.end(JSON.stringify({ message: "success", _id: user._id }))
+    res.writeHead(301, { "Location": "http://localhost:3000/users/login" })
+    res.end()
 }
 
 const loginUser = async (req, res) => {
+    console.log("Login up --> ", req.body)
     const { email, password } = req.body
-    const user = await User.find({ 
+    const user = await User.findOne({
         email, password
     })
-    if(!user) {
-        res.writeHead(404)
-        res.end(JSON.stringify({ success: false, message: "Invalid username or password" }))
-    }
-    const token = jwt.sign({ _id: user._id, email: user.email })
+    console.log("User", user)
+    if (!user) {
+        const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_SSR_NodeJS_Scartch/views/login.ejs"
+        fs.readFile(filePath, "utf-8", (err, template) => {
+            if (err) return res.end(err.toString());
 
-    res.writeHead(200)
-    res.setHeader("authToken", token)
-    res.end(JSON.stringify({ success: true, _id: user._id }))
+            const html = ejs.render(template, { message: "Invalid username or password" })
+            res.writeHead(404)
+            res.end(html)
+        })
+    }
+    else {
+        const token = jwt.sign({ _id: user._id, email: user.email }, "secret")
+        
+        res.setHeader('Set-Cookie', `authToken=${token}`);
+        res.writeHead(200)
+        res.end(JSON.stringify({ success: true, _id: user._id }))
+    }
 }
 
 const handleSignupPage = (req, res) => {
-    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_SSR_NodeJS/views/signup.ejs"
+    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_SSR_NodeJS_Scartch/views/signup.ejs"
     fs.readFile(filePath, "utf-8", (err, template) => {
-        if(err) {
+        if (err) {
             console.log(err)
             res.end(String(err))
             return
@@ -44,9 +54,9 @@ const handleSignupPage = (req, res) => {
 }
 
 const handleLoginPage = (req, res) => {
-    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_SSR_NodeJS/views/login.ejs"
+    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_SSR_NodeJS_Scartch/views/login.ejs"
     fs.readFile(filePath, "utf-8", (err, template) => {
-        if(err) {
+        if (err) {
             res.end(String(err))
             return
         }

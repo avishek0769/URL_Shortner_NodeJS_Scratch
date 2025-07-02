@@ -6,7 +6,7 @@ const routes = [
     { method: "GET", route: "/signup", middlewares: [], controller: handleSignupPage},
     { method: "GET", route: "/login", middlewares: [], controller: handleLoginPage},
     { method: "POST", route: "/signup", middlewares: [bodyParser], controller: createUser},
-    { method: "POST", route: "/login", middlewares: [], controller: loginUser},
+    { method: "POST", route: "/login", middlewares: [bodyParser], controller: loginUser},
 ]
 
 export async function userRouter (req, res, initialRoute = "") {

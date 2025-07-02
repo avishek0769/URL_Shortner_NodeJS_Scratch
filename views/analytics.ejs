@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #212121;
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 30px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            text-align: center;
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #555;
+            border-radius: 5px;
+            min-width: 150px;
+        }
+
+        .stat-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .stat-card p {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #555;
+        }
+
+        th {
+            background-color: #333;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Analytics Dashboard</h1>
+
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Short URL</h3>
+            <p>http://localhost:3000/url/<%= locals.shortId %></p>
+        </div>
+        <div class="stat-card">
+            <h3>Total Clicks</h3>
+            <p><%= locals.historyClicked.length %></p>
+        </div>
+        <div class="stat-card">
+            <h3>Created By</h3>
+            <p><%= locals.createdBy %></p>
+        </div>
+    </div>
+
+    <h2>Click History</h2>
+    <% if (locals.historyClicked && locals.historyClicked.length > 0) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>IP Address</th>
+                <th>Device</th>
+                <th>Clicked At</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% locals.historyClicked.forEach(click => { %>
+            <tr>
+                <td><%= click.ip %></td>
+                <td><%= click.device %></td>
+                <td><%= new Date(click.timestamp).toLocaleString() %></td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+    <% } else { %>
+    <div class="no-data">
+        <p>No click data available yet.</p>
+    </div>
+    <% } %>
+</body>
+
+</html>

@@ -73,7 +73,7 @@
                     <tr>
                         <td><a href="<%= link.redirectUrl %>" target="_blank"><%= link.redirectUrl %></a></td>
                         <td><a href="http://localhost:3000/url/<%= link.shortId %>" target="_blank">http://localhost:3000/url/<%= link.shortId %></a></td>
-                        <td><%= link.historyClicked.length %></td>
+                        <td><a href="http://localhost:3000/url/analytics/<%= link.shortId %>"><%= link.historyClicked.length %></a></td>
                     </tr>
                 <% }); %>
             <% } else { %>

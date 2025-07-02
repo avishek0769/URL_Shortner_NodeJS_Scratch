@@ -21,7 +21,6 @@ export const requestPipeline = (req, res, initialRoute, routes, extraArgs) => {
                         else routeCheck = false
                     }
                 }
-                console.log(parsedParams)
                 req.params = parsedParams
                 routeCheck = true
             }

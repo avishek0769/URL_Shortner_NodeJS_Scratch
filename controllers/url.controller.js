@@ -60,9 +60,9 @@ const handleAnalyticsPage = async (req, res) => {
 const handleShortUrlClick = async (req, res) => {
     const parser = new UAParser()
     const result = parser.setUA(req.headers["user-agent"]).getResult()
-
+    console.log(req.params)
     const urlDoc = await Url.findOneAndUpdate(
-        { shortId: req.shortId },
+        { shortId: req.params.shortId },
         {
             $push: {
                 historyClicked: {
@@ -80,7 +80,10 @@ const handleShortUrlClick = async (req, res) => {
         return res.end("This page does not exists")
     }
 
-    res.writeHead(301, { "Location": urlDoc.redirectUrl })
+    res.writeHead(302, { 
+        "Location": urlDoc.redirectUrl, 
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate"
+    })
     res.end()
 }
 

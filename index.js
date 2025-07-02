@@ -1,11 +1,13 @@
 import http from "http"
 import { userRouter } from "./routes/user.route.js";
 import mongoose from "mongoose";
+import { urlRouter } from "./routes/url.route.js";
 
 const server = http.createServer((req, res) => {
     if (req.url == "/favicon.co") res.end();
 
     userRouter(req, res, "/users")
+    urlRouter(req, res, "/url")
 })
 
 server.listen(3000, () => {

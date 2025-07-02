@@ -15,14 +15,14 @@ const createUser = async (req, res) => {
 }
 
 const loginUser = async (req, res) => {
-    console.log("Login up --> ", req.body)
+    console.log("Login --> ", req.body)
     const { email, password } = req.body
     const user = await User.findOne({
         email, password
     })
     console.log("User", user)
     if (!user) {
-        const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_SSR_NodeJS_Scartch/views/login.ejs"
+        const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_NodeJS_Scratch/views/login.ejs"
         fs.readFile(filePath, "utf-8", (err, template) => {
             if (err) return res.end(err.toString());
 
@@ -35,13 +35,13 @@ const loginUser = async (req, res) => {
         const token = jwt.sign({ _id: user._id, email: user.email }, "secret")
         
         res.setHeader('Set-Cookie', `authToken=${token}`);
-        res.writeHead(200)
-        res.end(JSON.stringify({ success: true, _id: user._id }))
+        res.writeHead(200, { "Location": "http://localhost:3000/url" })
+        res.end()
     }
 }
 
 const handleSignupPage = (req, res) => {
-    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_SSR_NodeJS_Scartch/views/signup.ejs"
+    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_NodeJS_Scratch/views/signup.ejs"
     fs.readFile(filePath, "utf-8", (err, template) => {
         if (err) {
             console.log(err)
@@ -54,7 +54,7 @@ const handleSignupPage = (req, res) => {
 }
 
 const handleLoginPage = (req, res) => {
-    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_SSR_NodeJS_Scartch/views/login.ejs"
+    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_NodeJS_Scratch/views/login.ejs"
     fs.readFile(filePath, "utf-8", (err, template) => {
         if (err) {
             res.end(String(err))

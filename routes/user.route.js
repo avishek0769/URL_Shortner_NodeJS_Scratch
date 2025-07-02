@@ -1,5 +1,5 @@
 import { createUser, handleSignupPage, loginUser, handleLoginPage } from "../controllers/user.controller.js";
-import { bodyParser } from "../middleware/bodyParser.js";
+import { bodyParser } from "../middlewares/bodyParser.js";
 
 
 const routes = [
@@ -9,7 +9,7 @@ const routes = [
     { method: "POST", route: "/login", middlewares: [bodyParser], controller: loginUser},
 ]
 
-export async function userRouter (req, res, initialRoute = "") {
+export function userRouter (req, res, initialRoute = "") {
     for (const elem of routes) {
         if(elem.method == req.method && (initialRoute + elem.route) == req.url){
             let i = 0

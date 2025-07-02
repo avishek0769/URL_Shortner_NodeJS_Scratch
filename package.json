@@ -4,16 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "ejs": "^3.1.10",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.1",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "ua-parser-js": "^2.0.4"
   }
 }

@@ -1,11 +1,11 @@
-import { Url } from "../models/url.models"
+import { Url } from "../models/url.models.js"
 
 
 const createShortUrl = (req, res) => {
-    Url
+    
 }
 
-const handleHomePage = () =>{
+const handleHomePage = (req, res) => {
     
 }
 

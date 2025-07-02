@@ -19,8 +19,8 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({
         email, password
+
     })
-    console.log("User", user)
     if (!user) {
         const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_NodeJS_Scratch/views/login.ejs"
         fs.readFile(filePath, "utf-8", (err, template) => {
@@ -35,7 +35,7 @@ const loginUser = async (req, res) => {
         const token = jwt.sign({ _id: user._id, email: user.email }, "secret")
         
         res.setHeader('Set-Cookie', `authToken=${token}`);
-        res.writeHead(200, { "Location": "http://localhost:3000/url" })
+        res.writeHead(301, { "Location": "http://localhost:3000/url" })
         res.end()
     }
 }

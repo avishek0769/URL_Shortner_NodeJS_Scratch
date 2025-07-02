@@ -45,15 +45,19 @@
             padding: 10px;
             text-align: left;
         }
+        a {
+            color: white;
+        }
     </style>
 </head>
 <body>
     <h1>URL Shortner</h1>
     <form action="http://localhost:3000/url/api/create", method="post">
-        <label for="url">Enter URL to shorten:</label>
-        <input type="text" id="url" name="url" required>
+        <label for="originalUrl">Enter URL to shorten:</label>
+        <input type="text" id="originalUrl" name="originalUrl" required>
         <button type="submit">Shorten</button>
     </form>
+    <h2>Welcome, <%= locals.fullname %>!</h2>
     <h3>Your Links</h3>
     <table border="1" padding="10px">
         <thead>
@@ -69,7 +73,7 @@
                     <tr>
                         <td><a href="<%= link.redirectUrl %>" target="_blank"><%= link.redirectUrl %></a></td>
                         <td><a href="http://localhost:3000/url/<%= link.shortId %>" target="_blank">http://localhost:3000/<%= link.shortId %></a></td>
-                        <td><% link.historyClicked.length %> </td>
+                        <td><%= link.historyClicked.length %></td>
                     </tr>
                 <% }); %>
             <% } else { %>

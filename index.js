@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 import { userRouter } from "./routes/user.route.js";
 import { urlRouter } from "./routes/url.route.js";
 
+export const projectDir = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_NodeJS_Scratch";
+
 const server = http.createServer((req, res) => {
     if (req.url == "/favicon.co") res.end();
     else if(req.url.startsWith("/users")) userRouter(req, res, "/users");

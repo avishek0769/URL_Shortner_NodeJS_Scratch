@@ -4,10 +4,11 @@ import { bodyParser } from "../middlewares/bodyParser.js"
 import { requestPipeline } from "../requestPipeline.js"
 
 const routes = [
-    { method: "GET", route: "/", middlewares: [auth], controller: handleHomePage },
-    { method: "POST", route: "/create", middlewares: [auth, bodyParser], controller: createShortUrl },
+    // Get from api too
+    { method: "GET", route: "", middlewares: [auth], controller: handleHomePage },
+    { method: "POST", route: "/api/create", middlewares: [auth, bodyParser], controller: createShortUrl },
 ]
 
 export function urlRouter(req, res, initialRoute = "") {
-    requestPipeline(req, res, initialRoute, routes)
+    requestPipeline(req, res, initialRoute, routes, {})
 }

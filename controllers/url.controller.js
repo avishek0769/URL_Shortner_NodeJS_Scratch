@@ -19,11 +19,11 @@ const createShortUrl = async (req, res) => {
         createdBy: userId,
         shortId: urlShortId,
         redirectUrl: originalUrl,
-        historyClicked: {
-            timestamp: Date.now(),
-            ip: req.socket.remoteAddress,
-            device: result.os
-        }
+        // historyClicked: {
+        //     timestamp: Date.now(),
+        //     ip: req.socket.remoteAddress,
+        //     device: result.os
+        // }
     })
     console.log(urlDoc)
     res.writeHead(302, { "Location": "/url" })
@@ -35,10 +35,10 @@ const handleHomePage = async (req, res) => {
         res.writeHead(301, { "Location": "http://localhost:3000/users/login" })
         return res.end()
     }
-
+    console.log(req.user)
     const urlDocs = await Url.find({ createdBy: req.user._id })
     fs.readFile(`${projectDir}/views/home.ejs`, "utf-8", (err, template) => {
-        const html = ejs.render(template, { urlDocs })
+        const html = ejs.render(template, { urlDocs, fullname: req.user.fullname })
         res.end(html)
     })
 }

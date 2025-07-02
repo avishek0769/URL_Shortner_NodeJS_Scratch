@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import fs from "fs";
 import ejs from "ejs"
+import { projectDir } from "../index.js";
 
 
 const createUser = async (req, res) => {
@@ -22,7 +23,7 @@ const loginUser = async (req, res) => {
 
     })
     if (!user) {
-        const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_NodeJS_Scratch/views/login.ejs"
+        const filePath = `${projectDir}/views/login.ejs`
         fs.readFile(filePath, "utf-8", (err, template) => {
             if (err) return res.end(err.toString());
 
@@ -32,7 +33,7 @@ const loginUser = async (req, res) => {
         })
     }
     else {
-        const token = jwt.sign({ _id: user._id, email: user.email }, "secret")
+        const token = jwt.sign({ _id: user._id, email: user.email, fullname: user.fullname }, "secret")
         
         res.setHeader('Set-Cookie', `authToken=${token};path=/`);
         res.writeHead(301, { "Location": "http://localhost:3000/url" })
@@ -41,7 +42,7 @@ const loginUser = async (req, res) => {
 }
 
 const handleSignupPage = (req, res) => {
-    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_NodeJS_Scratch/views/signup.ejs"
+    const filePath = `${projectDir}/views/signup.ejs`
     fs.readFile(filePath, "utf-8", (err, template) => {
         if (err) {
             console.log(err)
@@ -54,7 +55,7 @@ const handleSignupPage = (req, res) => {
 }
 
 const handleLoginPage = (req, res) => {
-    const filePath = "/home/avishek-adhikary/Desktop/programming/POCs/URL_Shortner_NodeJS_Scratch/views/login.ejs"
+    const filePath = `${projectDir}/views/login.ejs`
     fs.readFile(filePath, "utf-8", (err, template) => {
         if (err) {
             res.end(String(err))

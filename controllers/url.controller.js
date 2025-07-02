@@ -3,7 +3,7 @@ import fs from "fs"
 import ejs from "ejs"
 import { projectDir } from "../index.js"
 import shortid from "shortid"
-import {UAParser} from "ua-parser-js"
+import { UAParser } from "ua-parser-js"
 
 
 const createShortUrl = async (req, res) => {
@@ -12,18 +12,11 @@ const createShortUrl = async (req, res) => {
     const userId = req.user._id
 
     const urlShortId = shortid.generate()
-    const parser = new UAParser()
-    const result = parser.setUA(req.headers["user-agent"]).getResult()
 
     const urlDoc = await Url.create({
         createdBy: userId,
         shortId: urlShortId,
         redirectUrl: originalUrl,
-        // historyClicked: {
-        //     timestamp: Date.now(),
-        //     ip: req.socket.remoteAddress,
-        //     device: result.os
-        // }
     })
     console.log(urlDoc)
     res.writeHead(302, { "Location": "/url" })
@@ -43,7 +36,34 @@ const handleHomePage = async (req, res) => {
     })
 }
 
+const handleShortUrlClick = async (req, res) => {
+    const parser = new UAParser()
+    const result = parser.setUA(req.headers["user-agent"]).getResult()
+    console.log(req.shortId)
+    const urlDoc = await Url.findOneAndUpdate(
+        { shortId: req.shortId },
+        {
+            $push: {
+                historyClicked: {
+                    timestamp: Date.now(),
+                    ip: req.socket.remoteAddress,
+                    device: result.os
+                }
+            }
+        }
+    )
+    console.log(urlDoc)
+    if(!urlDoc){
+        res.writeHead(404)
+        return res.end("This page does not exists")
+    }
+    
+    res.writeHead(301, { "Location": urlDoc.redirectUrl })
+    res.end()
+}
+
 export {
     createShortUrl,
-    handleHomePage
+    handleHomePage,
+    handleShortUrlClick
 }

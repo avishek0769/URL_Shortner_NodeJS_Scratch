@@ -1,4 +1,4 @@
-import { createShortUrl, handleHomePage } from "../controllers/url.controller.js";
+import { createShortUrl, handleHomePage, handleShortUrlClick } from "../controllers/url.controller.js";
 import { auth } from "../middlewares/auth.js";
 import { bodyParser } from "../middlewares/bodyParser.js"
 import { requestPipeline } from "../requestPipeline.js"
@@ -10,5 +10,13 @@ const routes = [
 ]
 
 export function urlRouter(req, res, initialRoute = "") {
-    requestPipeline(req, res, initialRoute, routes, {})
+    const urlShortId = req.url.split("url")[1]
+
+    if (!urlShortId.startsWith("/api") && req.url != "/url") {
+        req.shortId = urlShortId.slice(1)
+        handleShortUrlClick(req, res)
+    }
+    else {
+        requestPipeline(req, res, initialRoute, routes, {})
+    }
 }

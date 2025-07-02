@@ -5,11 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #212121;
+            margin: 0;
+            padding: 20px;
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Sign up page -->
-    <form action="http://localhost:3000/users/signup" method="POST">
+    <form action="http://localhost:3000/users/api/signup" method="POST">
         <h1>Sign up</h1>
         <label for="fullname">Fullname:</label>
         <input type="text" id="fullname" name="fullname" required>
@@ -21,7 +67,7 @@
         <input type="password" id="password" name="password" required>
         <br>
         <button type="submit">Sign up</button>
-        <p>Already have an account? <a href="/login">Log in</a>.</p>
+        <p>Already have an account? <a href="/users/login">Log in</a>.</p>
     </form>
 </body>
 
